@@ -1,17 +1,13 @@
-# Attribution and adaptation record
+# Source and adaptation
 
-Original source: Martí Mestieri, `simulation_countrypanel_web.do` and `montecarlo_web.do`, available via the **estimation code** link on [his research page](https://mestieri.github.io/).
+The estimation code adapts Martí Mestieri's `simulation_countrypanel_web.do` and `montecarlo_web.do`, available through the estimation-code link on [his research page](https://mestieri.github.io/). The supplied Stata files specify [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/legalcode).
 
-Both supplied Stata files identify Martí Mestieri as their author and specify [Creative Commons Attribution-ShareAlike 4.0](https://creativecommons.org/licenses/by-sa/4.0/). The [full legal code](https://creativecommons.org/licenses/by-sa/4.0/legalcode) governs those adaptations. Original Stata source files are not bundled here.
+Python adaptation and modifications: **Wenzhuo Wang**.
 
-| Python file | Source and changes |
+| Python file | Source and main changes |
 |---|---|
-| `estimation/simulate.py` | Adapts the panel and measurement-error design from `simulation_countrypanel_web.do`; uses the note's parameter convention, a local NumPy RNG, and separate observed/truth tables. |
-| `estimation/estimators.py` | Adapts its seven estimation specifications; adds numerical safeguards and explicit parameter-identification labels. |
-| `estimation/run_montecarlo.py` | Adapts the repeated-experiment workflow of `montecarlo_web.do`; adds configurable CLI, CSV/JSON outputs, failure counts, bias/RMSE, and source hashes. |
+| `estimation/simulate.py` | Panel and measurement-error design from `simulation_countrypanel_web.do`; uses the note's parameter convention, NumPy random draws, and separate observed/truth tables. |
+| `estimation/estimators.py` | Seven specifications from the same Stata file; adds numerical checks and explicit parameter-identification labels. |
+| `estimation/run_montecarlo.py` | Repeated-experiment workflow from `montecarlo_web.do`; adds configurable runs, CSV/JSON output, failure counts, and bias/RMSE summaries. |
 
-These three files remain under CC BY-SA 4.0. Python adaptation and modifications: Wenzhuo Wang. Attribution does not imply endorsement by Mestieri, his institutions, or the paper's other authors.
-
-The model implementation and tests are separately written from the mathematical definitions and are covered by the original-work MIT terms in `LICENSE`. The study note is covered by the CC BY 4.0 terms already specified there; [full legal code](https://creativecommons.org/licenses/by/4.0/legalcode).
-
-The dependency packages retain their own licenses. This repository does not redistribute their source code.
+These three adaptations retain CC BY-SA 4.0. Original Stata files are not bundled, and attribution does not imply endorsement. The original model and tests use MIT; the study note uses CC BY 4.0. See [LICENSE](LICENSE) for the repository's licensing terms.

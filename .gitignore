@@ -4,10 +4,9 @@ __pycache__/
 *.egg-info/
 .pytest_cache/
 
-# Editors
+# Editors: share the F5 configurations, keep personal settings local
 .vscode/*
 !.vscode/launch.json
-!.vscode/settings.json
 .idea/
 
 # OS
@@ -15,8 +14,6 @@ __MACOSX/
 .DS_Store
 Thumbs.db
 
-# Keep the two supplied reference runs; ignore new experiment outputs.
+# Keep one reference run; ignore new experiment outputs
 results/*
-!results/check/
 !results/monte_carlo/
-!results/README.md

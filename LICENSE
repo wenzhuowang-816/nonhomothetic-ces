@@ -6,7 +6,7 @@ Original work by Wenzhuo Wang — released under the MIT License
     estimation/model.py
     estimation/__init__.py
     tests/
-    README.md, CHANGELOG.md, and project configuration files
+    README.md and project configuration files
 
 Adaptations of Martí Mestieri's Stata sample code — released under
 CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/),
