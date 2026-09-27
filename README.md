@@ -7,7 +7,7 @@ Study notes and a Python simulation/estimation toolkit for nonhomothetic CES pre
 - **Theory:** [study note](note/study-note-nhces.pdf), covering the implicit aggregator, demand, expenditure elasticities, and a deterministic Euler equation.
 - **Computation:** [model](estimation/model.py), [simulation](estimation/simulate.py), [seven estimators](estimation/estimators.py), and [Monte Carlo runner](estimation/run_montecarlo.py).
 
-The estimation experiment is a Python adaptation of **Martí Mestieri's Stata sample code**, linked from [his research page](https://mestieri.github.io/). The original Stata files are not redistributed. This is an educational implementation, not an official author release, a full replication of the empirical paper, or a HANK solver. The original author has not endorsed this project.
+The estimation experiment is a Python adaptation of **Martí Mestieri's Stata sample code**, linked from [his research page](https://mestieri.github.io/). The original Stata files are not redistributed. 
 
 ## Model and notation
 
