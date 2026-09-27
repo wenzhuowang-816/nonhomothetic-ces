@@ -1,0 +1,45 @@
+This repository uses mixed licensing.
+
+Original work by Wenzhuo Wang — released under the MIT License
+(https://opensource.org/licenses/MIT), including but not limited to:
+
+    estimation/model.py
+    tests/
+
+Adaptations of Martí Mestieri's Stata sample code — released under
+CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/),
+as required by the original license. Each adapted file carries an
+SPDX-License-Identifier: CC-BY-SA-4.0 header:
+
+    estimation/simulate.py
+    estimation/estimators.py
+    estimation/run_montecarlo.py
+
+Original Stata sources: https://mestieri.github.io/
+(Comin, Lashkari and Mestieri, 2021, Econometrica, estimation code.)
+
+The study note in note/ is © Wenzhuo Wang; it may be shared with
+attribution (CC BY 4.0).
+
+-------------------------------------------------------------------
+MIT License (for the original portions listed above)
+
+Copyright (c) 2026 Wenzhuo Wang
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
