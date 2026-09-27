@@ -1,0 +1,52 @@
+{
+  "model": {
+    "sigma": 0.5,
+    "epsilon": [
+      0.2,
+      2.0,
+      2.5
+    ]
+  },
+  "simulations": 100,
+  "seed": 1,
+  "seed_rule": "seed + replication - 1",
+  "methods": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "simulation_options": {
+    "countries": 10,
+    "periods": 50,
+    "consumption_growth": 0.02,
+    "price_growth": [
+      0.022,
+      0.017,
+      0.016
+    ],
+    "growth_sd": 0.01,
+    "measurement_sd": 0.01,
+    "initial_price": 100.0
+  },
+  "estimation_options": {
+    "epsilon_m": 2.0,
+    "sigma_bounds": [
+      0.0001,
+      0.9999
+    ],
+    "max_nfev": 2000,
+    "max_iter": 250,
+    "tolerance": 0.0001
+  },
+  "versions": {
+    "python": "3.13.5",
+    "numpy": "2.1.3",
+    "pandas": "2.2.3",
+    "scipy": "1.15.3"
+  },
+  "notes": "epsilon_m is fixed, not estimated. Bias/RMSE condition on successful finite estimates. See status.csv."
+}

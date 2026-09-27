@@ -1,0 +1,31 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Monte Carlo - 5 simulations",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "estimation.run_montecarlo",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "args": ["--simulations", "5", "--output", "${input:resultsFolder}"]
+    },
+    {
+      "name": "Monte Carlo - 100 simulations",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "estimation.run_montecarlo",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "args": ["--simulations", "100", "--output", "${input:resultsFolder}"]
+    }
+  ],
+  "inputs": [
+    {
+      "id": "resultsFolder",
+      "type": "promptString",
+      "description": "结果文件夹：每次使用新名称，例如 results/check2",
+      "default": "results/check"
+    }
+  ]
+}

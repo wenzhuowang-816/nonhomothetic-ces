@@ -5,7 +5,9 @@ __pycache__/
 .pytest_cache/
 
 # Editors
-.vscode/
+.vscode/*
+!.vscode/launch.json
+!.vscode/settings.json
 .idea/
 
 # OS
@@ -13,6 +15,8 @@ __MACOSX/
 .DS_Store
 Thumbs.db
 
-# Monte Carlo outputs (keep results/check as a tracked example)
+# Keep the two supplied reference runs; ignore new experiment outputs.
 results/*
 !results/check/
+!results/monte_carlo/
+!results/README.md
