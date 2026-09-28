@@ -1,24 +1,21 @@
 # SPDX-License-Identifier: CC-BY-SA-4.0
-"""Run repeated NH-CES simulations and summarize estimator performance.
+"""Run NH-CES Monte Carlo experiments and summarize estimator performance.
 
-Based on Marti Mestieri's montecarlo_web.do, https://mestieri.github.io/
+Adapted from Marti Mestieri's montecarlo_web.do:
+https://mestieri.github.io/
 Original license: https://creativecommons.org/licenses/by-sa/4.0/
 Python adaptation: Wenzhuo Wang, The University of Chicago.
+Adds configurable runs, CSV/JSON output, and bias/RMSE/failure summaries.
 
-Changes: configurable experiments; CSV/JSON output; bias, RMSE, and failure
-counts; explicit distinction between preference parameters and proxy slopes.
-Each replication gives every selected method the same observed sample.
-Only method 7 receives the true consumption index. epsilon_m is fixed at
-the DGP normalization for reporting parameter levels; it is not estimated.
+Methods share each simulated sample; only method 7 observes true consumption.
+epsilon_m is a fixed normalization, not an estimated parameter.
 
-Bias/RMSE use successful, finite estimates only. Always read status.csv too.
-Methods 4/5 have no structural truth for their individual proxy coefficients,
-so those rows have blank truth/bias/RMSE. Their coefficient ratio is assessed
-as an approximation to (epsilon_s-epsilon_m)/(epsilon_a-epsilon_m), following
-the source's comparison. This target is undefined when epsilon_a=epsilon_m.
+Bias/RMSE use successful finite estimates; also check status.csv.
+Methods 4–5 report proxy slopes with no individual structural truth.
+Their ratio approximates (epsilon_s-epsilon_m)/(epsilon_a-epsilon_m),
+which is undefined when epsilon_a=epsilon_m.
 
 Run from the repository root: python -m estimation.run_montecarlo
-The estimator module must be named estimators.py.
 """
 
 import argparse
@@ -143,22 +140,19 @@ def run_monte_carlo(
     output: str | Path | None = None,
     progress: bool = True,
 ) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
-    """Return (draws, summary, status), optionally also saving CSVs and config.
+    """Return (draws, summary, status), optionally saving CSVs and config.
 
-    Replication r uses seed+r-1, matching the source's seed schedule when
-    seed=1. NumPy draws are not identical to Stata draws. simulation_options
-    are keyword arguments for simulate_panel, except model/seed;
-    estimation_options are arguments for estimate, except data/method/truth/
-    epsilon_m. No estimate is initialized using the DGP's unknown parameters.
+    Replication r uses seed+r-1; NumPy draws differ from Stata's.
+    Options pass to simulate_panel/estimate, excluding runner-controlled
+    arguments. Unknown DGP parameters are not used to initialize estimates.
 
-    Expected simulation failures are recorded for every selected method;
-    no draws are silently replaced. Estimator failures are retained too.
-    Failed point estimates remain in draws, but are excluded from summary.
-    API/configuration errors stop execution rather than becoming failed draws.
+    Simulation and estimation failures are recorded without replacement.
+    Failed estimates stay in draws but are excluded from summary.
+    Invalid API/configuration options stop execution.
 
-    If output is set, estimates.csv is appended after each replication.
-    Existing output filenames are never overwritten. Partial estimates and
-    config remain available if interrupted; automatic resume is not provided.
+    With output set, estimates are saved after each replication.
+    Existing files are never overwritten; interrupted runs retain partial
+    output but cannot resume automatically.
     """
     for name, value, minimum in (("simulations", simulations, 1), ("seed", seed, 0)):
         if isinstance(value, (bool, np.bool_)) or not isinstance(value, (int, np.integer)) or value < minimum:

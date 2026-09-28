@@ -5,28 +5,16 @@ Source: simulation_countrypanel_web.do, https://mestieri.github.io/
 Original license: https://creativecommons.org/licenses/by-sa/4.0/
 Python adaptation: Wenzhuo Wang, The University of Chicago.
 
-Methods follow the source's equations and country fixed effects:
-1 log-linear GMM; 2 nonlinear-price-index GMM; 3 iterative SUR;
+Methods: 1 log-linear GMM; 2 nonlinear-price-index GMM; 3 iterative SUR;
 4 expenditure OLS; 5 Tornqvist SUR; 6 hybrid SUR/GMM; 7 known-C SUR.
-SUR is two-step feasible GLS with a shared relative-price coefficient.
-GMM uses identity weights first, then uncentered heteroskedasticity-robust
-moment weights. Its instruments follow the source; measurement error does
-not make these instruments automatically exogenous.
 
-Notation follows the study notes, not the Stata variable labels:
+Estimating equation (study-note notation):
     log(s_i/s_m) = (1-sigma)*log(p_i/p_m)
                    + (1-sigma)*(epsilon_i-epsilon_m)*log(C) + country_FE.
-Methods 1, 2, 3, 6 identify ratios r_i = epsilon_i/epsilon_m. Their Stata
-outputs are labeled epsilon_i after a normalization. Method 7 identifies
-differences epsilon_i-epsilon_m on the supplied C scale. Methods 4 and 5
-return approximate regression coefficients, not epsilon levels.
 
-Changes from Stata: explicit identification labels, optional epsilon_m
-normalization, parameter bounds, rank/convergence checks, and stable log
-calculations. Near-singular covariance matrices receive an eigenvalue floor;
-exact fits skip covariance reweighting. Such cases are noted in the result.
-This is a numerical reimplementation, not a bit-for-bit Stata replication.
-Only point estimates are implemented; no standard errors or hypothesis tests.
+Identification: methods 1, 2, 3, 6 estimate ratios epsilon_i/epsilon_m;
+method 7 estimates differences on the supplied C scale; methods 4 and 5
+return proxy coefficients only. Point estimates only; no standard errors.
 """
 
 from dataclasses import dataclass
@@ -349,22 +337,17 @@ def estimate(
     max_iter: int = 250,
     tolerance: float = 1e-4,
 ) -> EstimateResult:
-    """Estimate one method from simulate_panel's observed table.
+    """Estimate one method from simulated observed data.
 
-    Methods 1-6 never read truth. Method 7 matches truth by country-period keys,
-    not row position. epsilon_m is a normalization supplied by the caller; it
-    is not estimated. Leave it None to return only identifiable ratios or
-    differences. For method 7 it must use the same C scale as supplied truth.
+    Only method 7 uses truth, matched by country-period keys.
+    epsilon_m fixes the normalization; None returns ratios or differences.
+    For method 7, it must match truth's consumption scale.
 
-    sigma_bounds applies to nonlinear methods 1 and 2. The default selects
-    0 < sigma < 1; to estimate sigma > 1, supply bounds entirely above one.
-    Linear methods are not clipped to those bounds. Nonlinear ratios must
-    exceed 1e-6. iterations counts GMM stages, SUR steps, or method-3 updates;
-    evaluations counts nonlinear objective evaluations reported by SciPy.
+    sigma_bounds applies only to methods 1–2; use bounds above one
+    for sigma > 1. Nonlinear ratios must exceed 1e-6.
 
-    Bad API options raise ValueError. Data, identification, and numerical
-    failures return success=False with a message, so Monte Carlo can count
-    failures. Failed results may retain the last available point estimates.
+    Invalid options raise ValueError. Data or estimation failures return
+    success=False with a message and may retain the last estimates.
     """
     if isinstance(method, (bool, np.bool_)) or not isinstance(method, (int, np.integer)) or method not in METHODS:
         raise ValueError("method must be an integer from 1 through 7.")

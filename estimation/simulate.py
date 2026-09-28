@@ -37,28 +37,21 @@ def simulate_panel(
     initial_price: float = 100.0,
     seed: int | None = None,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
-    """Return (observed, truth), sorted by country then period, starting at 1.
+    """Return observed and truth tables sorted by country and period.
 
-    For country n and period t, generate independent observation-level shocks:
-        C_nt   = log(1+n) * (1+consumption_growth+u_nt)**t
-        p_int  = initial_price * (1+price_growth_i+v_int)**(-t)
-    Each u and v is N(0, growth_sd**2). These are NOT accumulated innovations
-    in a recursive growth process; this follows the original Stata equations.
+    For each country-period pair, prices and consumption receive independent
+    growth shocks following the original Stata equations. These shocks are
+    observation-specific, not recursively accumulated.
 
-    Observed prices, expenditure, and shares receive independent exp(z)
-    measurement factors, with z ~ N(0, measurement_sd**2). These factors have
-    median one, not mean one. Measured shares are capped at one separately,
-    without renormalization, as in Stata. They need not sum to one.
+    Observed prices, expenditure, and shares receive independent lognormal
+    measurement errors. Shares are capped at one separately and are not
+    renormalized, so they may not sum to one.
 
-    Both tables contain country, period, expenditure, price_a/m/s, share_a/m/s.
-    Truth additionally contains consumption, price_index, quantity_a/m/s.
-    Pass only observed to ordinary estimators; truth is for validation and
-    the benchmark estimator that explicitly assumes C is observed.
+    The observed table is used by ordinary estimators. The truth table also
+    contains consumption, price index, and quantities for validation and method 7.
 
-    Set measurement_sd=0 for an exact model-consistent sample. Growth shocks
-    can remain nonzero: they vary prices and C without breaking model equations.
-    The same seed and configuration reproduce a sample in the same environment.
-    This function neither writes files nor changes NumPy's global random state.
+    Set measurement_sd=0 for an exact model-consistent sample. The function
+    does not write files or modify NumPy's global random state.
     """
     for name, count in (("countries", countries), ("periods", periods)):
         if isinstance(count, (bool, np.bool_)) or not isinstance(count, (int, np.integer)):
